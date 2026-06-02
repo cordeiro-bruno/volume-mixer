@@ -2,7 +2,7 @@
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
-var VolumeMixer = imports.modules.VolumeMixer
+var VolumeMixer = imports.modules.VolumeMixer;
 
 function init() {
     log("init ${Me.metadata.name} ${Me.metadata.version}")
