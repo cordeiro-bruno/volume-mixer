@@ -2,7 +2,6 @@
     "uuid": "volume-mixer@cordeiro-bruno.github.io",
     "name": "Volume Mixer",
     "description": "Volume Mixer",
-    "version": 1,
     "shell-version": ["50.1"],
     "url": "https://github.com/cordeiro-bruno/volume-mixer"
 }
