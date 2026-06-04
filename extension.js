@@ -1,17 +1,18 @@
 import St from 'gi://St';
 import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
+
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as PopupMenu from 'resource://org/gnome/shell/ui/popupMenu.js';
+import * as Volume from 'resource://org/gnome/shell/ui/status/volume.js';
 
 // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/extensions/extension.js
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/main.js
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-
 // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/panelMenu.js
-import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/popupMenu.js
-import * as PopupMenu from 'resource://org/gnome/shell/ui/popupMenu.js';
 // https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/status/volume.js
-import * as Volume from 'resource://org/gnome/shell/ui/status/volume.js';
 
 export default class VolumeMixer extends Extension {
     enable() {
@@ -28,6 +29,17 @@ export default class VolumeMixer extends Extension {
 
         this._mixerControl = Volume.getMixerControl();
         this._indicator.menu.addMenuItem(new PopupMenu.PopupMenuItem(this._mixerControl.name));
+
+        this._sourceId = GLib.timeout_add_seconds(
+            GLib.PRIORITY_DEFAULT,
+            1,
+            this._callback
+        );
+    }
+
+    _callback() {
+        //
+        return GLib.SOURCE_CONTINUE;
     }
 
     disable() {
@@ -35,5 +47,10 @@ export default class VolumeMixer extends Extension {
         this._indicator = null;
         this._mixerControl?.destroy();
         this._mixerControl = null;
+
+        if (this._sourceId) {
+            GLib.Source.remove(this._sourceId);
+            this._sourceId = null;
+        }
     }
 }
