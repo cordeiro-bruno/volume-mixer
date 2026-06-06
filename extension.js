@@ -27,8 +27,8 @@ export default class VolumeMixer extends Extension {
         // Add the indicator to the panel
         Main.panel.addToStatusArea(this.uuid, this._indicator);
 
-        this._mixerControl = Volume.getMixerControl();
-        this._indicator.menu.addMenuItem(new PopupMenu.PopupMenuItem(this._mixerControl.name));
+        var mixerControl = new Volume.getMixerControl();
+        this._indicator.menu.addMenuItem(new PopupMenu.PopupMenuItem(mixerControl.name));
 
         this._sourceId = GLib.timeout_add_seconds(
             GLib.PRIORITY_DEFAULT,
@@ -45,8 +45,6 @@ export default class VolumeMixer extends Extension {
     disable() {
         this._indicator?.destroy();
         this._indicator = null;
-        this._mixerControl?.destroy();
-        this._mixerControl = null;
 
         if (this._sourceId) {
             GLib.Source.remove(this._sourceId);
