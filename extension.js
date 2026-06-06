@@ -38,7 +38,7 @@ export default class VolumeMixer extends Extension {
     }
 
     _callback() {
-        //
+        // https://gitlab.gnome.org/GNOME/gnome-control-center/-/blob/main/panels/sound/cc-volume-levels-page.c?ref_type=heads
         return GLib.SOURCE_CONTINUE;
     }
 
